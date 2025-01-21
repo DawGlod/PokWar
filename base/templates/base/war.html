@@ -1,0 +1,35 @@
+{% include 'main.html' %}
+{% load static %}
+<body>
+    {% block content %}
+    <div style="text-align: right; margin-right: 1px;">
+        <form method="post" action="{% url 'reset_war' %}">
+            {% csrf_token %}
+            <button type="submit" class="buttons" id="reset-button">Reset Game</button>
+        </form>
+    </div>
+    
+    <div class="gamename">
+        War Game
+    </div>
+    
+    <div class="war-playboard">
+        <div>
+            <div class="war-hand">My Hand: {{ my_hand }} cards</div>
+            <img src="{% static my_first.image %}" class="war-card"> 
+        </div>
+        <div>
+            <div class="war-hand">Enemy Hand: {{ enemy_hand }} cards </div>
+            <img src="{% static enemy_first.image %}" class="war-card">
+        </div>
+    </div>
+
+
+    <div class="play-button-box">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="buttons" id="play-button">Play Next Card</button>
+        </form>
+    </div>
+</body>
+{% endblock content %}

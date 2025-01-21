@@ -1,0 +1,57 @@
+{% include 'main.html' %}
+{% load static %}
+<body>
+    {% block content %}
+    
+    <!-- for later -->
+    <div style="text-align: right; margin-right: 1px;">
+        <form method="post" action="{% url 'poker' %}">
+            {% csrf_token %}
+            <button type="submit" class="buttons" id="reset-button">Reset Game</button>
+        </form>
+    </div>
+
+    <div class="gamename">
+        Poker Game
+    </div>
+
+    <div class="poker-playboard">
+        <div class="hand">
+            {% for card in my_hand %}
+            <img src="{% static card.image %}" class="poker-card"> 
+            {% endfor %}
+        </div>
+        <div class="poker-comb">
+            {{ my_comb }}
+        </div>
+        <div class="poker-result">
+            {{ my_result }}
+        </div>
+        <div class="table-cards">
+            <div class="flop">
+                {% for card in flop %}
+                <img src="{% static card.image %}" class="poker-card"> 
+                {% endfor %}
+            </div>
+            <div>
+                <img src="{% static turn.image %}" class="poker-card"> 
+            </div>
+            <div>
+                <img src="{% static river.image %}" class="poker-card"> 
+            </div>
+        </div>
+        <div class="poker-result">
+            {{ enemy_result }}
+        </div>
+        <div class="poker-comb">
+            {{ enemy_comb }}
+        </div>
+        <div class="hand">
+            {% for card in enemy_hand %}
+            <img src="{% static card.image %}" class="poker-card"> 
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+{% endblock content %}

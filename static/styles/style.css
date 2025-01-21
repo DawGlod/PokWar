@@ -1,0 +1,191 @@
+/* overall */
+body{
+    font-family: sans-serif;
+    margin: 0px;
+    background-color: gray;
+}
+a{
+    text-decoration: none;
+}
+/* navbar */
+#navbar{
+    display: flex; 
+    justify-content: center;
+    background-color: rgba(160, 225, 228, 0.8);
+    margin: 0px;
+    border: 1px solid;
+    border-color:dimgrey;
+    align-items: center;
+    padding: 5px;
+    position: relative;
+}
+#navbar a:hover{
+    color: rgb(224, 35, 35);
+}
+#title{
+    margin: 0px;
+    font-size: 50px;
+    font-weight: bold;    
+    color:rgb(84, 32, 114);
+    font-family: 'consolas';
+}
+#login-register{
+    display: flex;
+    position: absolute;
+    font-size: 20px;
+    right: 10px;
+    gap: 10px;
+}
+.login-register{
+    padding-right: 10px;
+}
+/* war-cards */
+.gamename{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 35px;
+    font-weight: bold;
+    color: rgb(53, 53, 53);
+    text-shadow: 1px 1px 5px lightgreen, -1px -1px 5px lightgreen;
+}
+.war-hand{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.war-card{
+    max-width: 60%;
+    height: auto;
+}
+.war-playboard{  
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 13%;
+}
+/* war-buttons */
+#play-button{
+    font-size: 25px;
+}
+#reset-button{
+    font-size: 13px;
+}
+.play-button-box{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+.buttons{
+    background-color:rgb(188, 216, 219);
+    font-weight: bold;
+    border: 2px solid;
+    border-radius: 5px;
+}
+.buttons:hover{
+    background-color: rgb(197, 197, 197);
+}
+.buttons:active{
+    background-color: rgb(178, 178, 250);
+}
+/* victory */
+.result-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 650px;
+    width: 650px;
+    margin: auto;
+    margin-top: 100px;
+    border: 5px solid black;
+    border-radius: 999px;
+
+    font-size: 100px;
+    font-weight: bolder;
+
+    animation: resultRotation;
+    animation-play-state: running;
+    animation-iteration-count: 1;
+    animation-delay: 0s;
+    animation-timing-function: ease-out;
+    animation-duration: 2s;
+}
+
+#victory-box{
+    background-color: green;
+}
+
+#defeat-box{
+    background-color: rgba(255, 0, 0, 0.8);
+}
+
+@keyframes resultRotation{
+    100%{transform: rotateY(1080deg)}
+}
+
+/* home */
+.home-display{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 8%;
+}
+
+.game-display{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(to right, #fc562df1, #f78e3df1);
+    border: 7px solid black;
+    border-radius: 30px;
+
+    color: rgb(1, 173, 173);
+    text-shadow: 0px 0px 10px black;
+    font-size: 65px;
+    font-weight: bolder;
+}
+.game-display:hover{
+    background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
+    color: rgba(1, 173, 173, 0.85);
+}
+.game-display:active{
+    background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
+    color: rgba(1, 173, 173, 0.85);
+}
+/* poker-cards */
+.poker-card{
+    max-width: 100px;
+    height: auto;
+}
+.hand{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.poker-result{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+}
+.flop{
+    display: flex;
+    gap: 20px;
+}
+.table-cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.poker-comb{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}

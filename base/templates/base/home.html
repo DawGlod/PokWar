@@ -1,0 +1,15 @@
+{% include 'main.html' %}
+{% block content %}
+    <div class="home-display">
+        <a href="{% url 'war' %}">
+            <div class="game-display">
+                <p>WAR</p>
+            </div>
+        </a>
+        <a href="{% url 'poker' %}">
+            <div class="game-display">
+                <p>POKER</p>
+            </div>
+        </a>
+    </div>
+{% endblock content %}
