@@ -29,11 +29,9 @@ def war(request):
         my_hand, enemy_hand = initialize_war_game()
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
-        request.session['results'] = []
     
     my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
     enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
-    results = request.session['results']
 
     if my_hand and enemy_hand:
         result, my_hand, enemy_hand = play_turn(my_hand, enemy_hand)
@@ -43,13 +41,11 @@ def war(request):
         if result == 'defeat':
             reset_war(request)
             return HttpResponseRedirect('/defeat')
-        results.append(result)
 
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
-        request.session['results'] = results
 
-    context = {'results': results, 'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 'my_first': my_hand[0], 'enemy_first': enemy_hand[0]}
+    context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 'my_first': my_hand[0], 'enemy_first': enemy_hand[0]}
     return render(request, 'base/war.html', context)
 
 def reset_war(request):
