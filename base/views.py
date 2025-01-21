@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .war_logic import initialize_war_game, play_turn, Card
-from .poker_logic import initialize_poker_game, result_checker
+from .logic.war_logic import initialize_war_game, play_turn, Card
+from .logic.poker_logic import initialize_poker_game, result_checker
 
 
 def home(request):
