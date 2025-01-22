@@ -82,7 +82,7 @@ def war(my_hand, enemy_hand):
                     enemy_hand.append(my_hand.pop(0))
                 return my_hand, enemy_hand
         else:
-            enemy_hand.clear() if len(my_hand) > len(enemy_hand) else enemy_hand.clear()
+            enemy_hand.clear() if len(my_hand) > len(enemy_hand) else my_hand.clear()
             
             return my_hand, enemy_hand
 

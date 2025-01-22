@@ -33,9 +33,13 @@ def war(request):
             request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
 
         my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
-        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]    
+        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
 
-        context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 
+        war_status = False
+        if my_hand[0].rank == enemy_hand[0].rank:
+            war_status = True  
+
+        context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 'war_status': war_status,
                 'my_first': {'rank': my_hand[0].rank, 'suit': my_hand[0].suit}, 
                 'enemy_first': {'rank': enemy_hand[0].rank, 'suit': enemy_hand[0].suit},
                 'my_card_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',
@@ -57,7 +61,11 @@ def war(request):
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
 
-        context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 
+        war_status = False
+        if my_hand[0].rank == enemy_hand[0].rank:
+            war_status = True  
+
+        context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 'war_status': war_status,
                 'my_first': {'rank': my_hand[0].rank, 'suit': my_hand[0].suit}, 
                 'enemy_first': {'rank': enemy_hand[0].rank, 'suit': enemy_hand[0].suit},
                 'my_card_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',

@@ -17,6 +17,9 @@
             <img src="{% static my_card_image %}" class="war-card" id="my-first"> 
         </div>
         <div>
+            <h1 id="war-status">{% if war_status %}WAR{% endif %}</h1>
+        </div>
+        <div>
             <div class="war-hand" id="enemy-hand-count">Enemy Hand: {{ enemy_hand }} cards </div>
             <img src="{% static enemy_card_image %}" class="war-card" id="enemy-first">
         </div>

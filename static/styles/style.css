@@ -63,7 +63,17 @@ a{
     display: flex;
     justify-content: center;
     text-align: center;
-    gap: 13%;
+    gap: 4%;
+}
+#war-status{
+    font-size: 48px;
+    font-weight: bold;
+    color: black;
+    animation: pulsate 1.5s infinite, glow 1.5s infinite;
+    position: absolute;
+    top: 50%;
+    left: 47%;
+    transform: translate(-50%, -50%);
 }
 /* war-buttons */
 #play-button{
@@ -188,4 +198,30 @@ a{
     justify-content: center;
     align-items: center;
     padding: 10px;
+}
+
+
+/* animations */
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000;
+    }
+    50% {
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
+    }
+    100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000;
+    }
 }
