@@ -13,23 +13,21 @@
     
     <div class="war-playboard">
         <div>
-            <div class="war-hand">My Hand: {{ my_hand }} cards</div>
-            <img src="{% static my_first.image %}" class="war-card"> 
+            <div class="war-hand" id="my-hand-count">My Hand: {{ my_hand }} cards</div>
+            <img src="{% static my_card_image %}" class="war-card" id="my-first"> 
         </div>
         <div>
-            <div class="war-hand">Enemy Hand: {{ enemy_hand }} cards </div>
-            <img src="{% static enemy_first.image %}" class="war-card">
+            <div class="war-hand" id="enemy-hand-count">Enemy Hand: {{ enemy_hand }} cards </div>
+            <img src="{% static enemy_card_image %}" class="war-card" id="enemy-first">
         </div>
     </div>
 
 
     <div class="play-button-box">
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="buttons" id="play-button">Play Next Card</button>
-        </form>
+            <button class="buttons" id="play-button" onclick="playNextCard()">Play Next Card</button>
     </div>
 
     <script src="{% static 'js/play_button.js' %}"></script>
+    <script src="{% static 'js/war_ajax.js' %}"></script>
 </body>
 {% endblock content %}

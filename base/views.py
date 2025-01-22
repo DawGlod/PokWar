@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from .logic.war_logic import initialize_war_game, play_turn, Card
 from .logic.poker_logic import initialize_poker_game, result_checker
 
@@ -25,36 +25,50 @@ def defeat(request):
     return render(request, 'base/defeat.html', context)
 
 def war(request):
-    if 'my_hand' not in request.session or 'enemy_hand' not in request.session:
-        my_hand, enemy_hand = initialize_war_game()
-        request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
-        request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
-    
-    my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
-    enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
+    if request.method == "GET":
+        if 'my_hand' not in request.session or 'enemy_hand' not in request.session:
+            my_hand, enemy_hand = initialize_war_game()
+            
+            request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
+            request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
 
-    if my_hand and enemy_hand:
+        my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
+        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]    
+
+        context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 
+                'my_first': {'rank': my_hand[0].rank, 'suit': my_hand[0].suit}, 
+                'enemy_first': {'rank': enemy_hand[0].rank, 'suit': enemy_hand[0].suit},
+                'my_card_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',
+                'enemy_card_image': f'images/cards/{enemy_hand[0].rank}{enemy_hand[0].suit}.png'}
+        return render(request, 'base/war.html', context)
+
+    elif request.method == "POST":
+        my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
+        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
+
         result, my_hand, enemy_hand = play_turn(my_hand, enemy_hand)
         if result == 'victory':
             reset_war(request)
-            return HttpResponseRedirect('/victory')
+            return JsonResponse({'status': 'redirect', 'url': '/victory'})
         if result == 'defeat':
             reset_war(request)
-            return HttpResponseRedirect('/defeat')
+            return JsonResponse({'status': 'redirect', 'url': '/defeat'})
 
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
 
-    context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 'my_first': my_hand[0], 'enemy_first': enemy_hand[0]}
-    return render(request, 'base/war.html', context)
+        context = {'my_hand': len(my_hand), 'enemy_hand': len(enemy_hand), 
+                'my_first': {'rank': my_hand[0].rank, 'suit': my_hand[0].suit}, 
+                'enemy_first': {'rank': enemy_hand[0].rank, 'suit': enemy_hand[0].suit},
+                'my_card_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',
+                'enemy_card_image': f'images/cards/{enemy_hand[0].rank}{enemy_hand[0].suit}.png'}
+        return JsonResponse(context)
 
 def reset_war(request):
     if 'my_hand' in request.session:
         del request.session['my_hand']
     if 'enemy_hand' in request.session:
         del request.session['enemy_hand']
-    if 'results' in request.session:
-        del request.session['results']
     return redirect('war')
 
 def poker(request):
