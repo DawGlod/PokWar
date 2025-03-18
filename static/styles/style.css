@@ -2,7 +2,7 @@
 body{
     font-family: sans-serif;
     margin: 0px;
-    background-color: gray;
+    background-color: rgb(90, 89, 89);
 }
 a{
     text-decoration: none;
@@ -11,22 +11,22 @@ a{
 #navbar{
     display: flex; 
     justify-content: center;
-    background-color: rgba(160, 225, 228, 0.8);
+    background: linear-gradient(to right, #1E5631, #0D0D0D);
     margin: 0px;
-    border: 1px solid;
-    border-color:dimgrey;
     align-items: center;
     padding: 5px;
     position: relative;
 }
+#navbar a{
+    color: #FFD700;
+}
 #navbar a:hover{
-    color: rgb(224, 35, 35);
+    color: #FFFC2E;
 }
 #title{
     margin: 0px;
     font-size: 50px;
     font-weight: bold;    
-    color:rgb(84, 32, 114);
     font-family: 'consolas';
 }
 #login-register{
@@ -198,6 +198,43 @@ a{
     justify-content: center;
     align-items: center;
     padding: 10px;
+}
+/* poker-buttons */
+.decision-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+}
+
+.decision-buttons-container button {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+#fold-button {
+    background: linear-gradient(to right, #8b0000, #ff0000);
+}
+
+#call-button {
+    background: linear-gradient(to right, #006400, #00ff00);
+}
+
+#raise-button {
+    background: linear-gradient(to right, #8b6508, #ffd700);
+}
+
+.decision-buttons-container button:hover {
+    filter: brightness(1.2);
+    transform: scale(1.1);
 }
 
 

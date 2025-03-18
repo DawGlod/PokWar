@@ -1,3 +1,16 @@
 {% include 'main.html' %}
 {% block content %}
+<div id="login-register">
+    <form method="POST">
+        {% csrf_token %}
+        <label>email:</label>
+        <input>
+        <label>username:</label>
+        <input>
+        <label>password:</label>
+        <input>
+        <label>repeat password:</label>
+        <input>
+    </form>
+</div>
 {% endblock content %}
