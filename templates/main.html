@@ -9,8 +9,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
 </head>
 <body>
-    {% block content %}
     {% include 'navbar.html' %}
+    {% block content %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li><b> {{ message }} </b></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% endblock content %}
 </body>
 </html>

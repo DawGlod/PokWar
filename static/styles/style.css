@@ -23,28 +23,92 @@ a{
 #navbar a:hover{
     color: #FFFC2E;
 }
+
+#username-navbar{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    font-size: 30px;
+    font-weight: bolder;
+    left: 40px;
+    cursor: pointer;
+}
+
 #title{
     margin: 0px;
     font-size: 50px;
     font-weight: bold;    
     font-family: 'consolas';
 }
-#login-register{
+#login-register-navbar{
     display: flex;
+    text-align: center;
+    justify-content: center;
     position: absolute;
     font-size: 20px;
     right: 10px;
     gap: 10px;
 }
-.login-register{
+.login-register-navbar{
     padding-right: 10px;
 }
+
+#login-register {
+    width: 320px;
+    margin: 100px auto;
+    padding: 25px;
+    padding-bottom: 7px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#login-register label {
+    display: block;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+#login-register input[type="text"],
+#login-register input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#login-register input[type="submit"] {
+    width: 102%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+#login-register input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.redirect-href{
+    color: #32CD32;
+}
+
 /* war-cards */
 .gamename{
     display: flex;
     text-align: center;
     justify-content: center;
-    padding: 20px;
+    padding: 17px;
     font-size: 35px;
     font-weight: bold;
     color: rgb(53, 53, 53);

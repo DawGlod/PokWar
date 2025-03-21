@@ -1,16 +1,31 @@
 {% include 'main.html' %}
 {% block content %}
+
+{% if page == 'login' %}
 <div id="login-register">
-    <form method="POST">
+    <form method="POST" action="">
         {% csrf_token %}
-        <label>email:</label>
-        <input>
-        <label>username:</label>
-        <input>
-        <label>password:</label>
-        <input>
-        <label>repeat password:</label>
-        <input>
+        <label>Username:</label>
+        <input type="text" name="username"><br><br>
+        <label>Password:</label>
+        <input type="password" name="password"><br><br>
+        <input type="submit" value="Login">
     </form>
+
+    <a href="{% url 'register' %}" class="redirect-href"><p>Don't have an account? Sign up</p></a>
 </div>
+{% endif %}
+
+{% if page == 'register' %}
+<div id="login-register">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <small style="color: #A8A8A8">{{form.as_p}}</small>
+        <input type="submit" value="Register">
+    </form>
+
+    <a href="{% url 'login' %}" class="redirect-href"><p>Have an account? Log in</p></a>
+</div>
+{% endif %}
+
 {% endblock content %}

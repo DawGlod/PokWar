@@ -20,13 +20,9 @@
             <img id = 'enemy_card1_image' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
             <img id = 'enemy_card2_image' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
         </div>
-        <!-- <div class="hand">
-            {% for card in enemy_hand %}
-            <img src="{% static card.image %}" class="poker-card"> 
-            {% endfor %}
-        </div> -->
-        <div class="poker-comb" id='enemy-comb'></div>
-        <div class="poker-result" id='enemy-result'></div>
+
+        <div class="poker-comb" id='enemy-comb'>&nbsp;</div>
+        <div class="poker-result" id='enemy-result'>&nbsp;</div>
 
         <div class="table-cards">
             <div class="flop">
@@ -40,21 +36,10 @@
             <div>
                 <img id='card5' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
             </div>
-            <!-- <div class="flop">
-                {% for card in flop %}
-                <img src="{% static card.image %}" class="poker-card"> 
-                {% endfor %}
-            </div>
-            <div>
-                <img src="{% static turn.image %}" class="poker-card"> 
-            </div>
-            <div>
-                <img src="{% static river.image %}" class="poker-card"> 
-            </div> -->
         </div>
         
-        <div class="poker-result" id='my-result'></div>
-        <div class="poker-comb" id='my-comb'></div>
+        <div class="poker-result" id='my-result'>&nbsp;</div>
+        <div class="poker-comb" id='my-comb'>&nbsp;</div>
         
         <div class="hand">
             {% for card in my_hand %}
@@ -64,7 +49,7 @@
     </div>
 
     <div class="decision-buttons-container">
-        <button class="decision-button" id="fold-button">Fold</button>
+        <button class="decision-button" id="fold-button" onclick="fold()">Fold</button>
         <button class="decision-button" id="call-button" onclick="call()">Call</button>
         <button class="decision-button" id="raise-button">Raise</button>
     </div>

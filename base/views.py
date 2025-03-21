@@ -1,20 +1,56 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from .logic.war_logic import initialize_war_game, play_turn, Card
 from .logic.poker_logic import initialize_poker_game, result_checker
+from .forms import MyUserCreationForm
 
 
 def home(request):
     context = {}
     return render(request, 'base/home.html', context)
 
-def login(request):
-    context = {}
+def loginPage(request):
+    page = 'login'
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.error(request, "Invalid username or password.")
+
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
-def register(request):
-    context = {}
+def registerPage(request):
+    page = 'register'
+    form = MyUserCreationForm()
+
+    if request.method=="POST":
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.error(request, "An error occured during registration.")
+
+    context = {'page': page, 'form': form}
     return render(request, 'base/login_register.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')
 
 def victory(request):
     context = {}
@@ -26,14 +62,14 @@ def defeat(request):
 
 def war(request):
     if request.method == "GET":
-        if 'my_hand' not in request.session or 'enemy_hand' not in request.session:
+        if 'my_hand_war' not in request.session or 'enemy_hand_war' not in request.session:
             my_hand, enemy_hand = initialize_war_game()
             
-            request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
-            request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
+            request.session['my_hand_war'] = [(card.rank, card.suit) for card in my_hand]
+            request.session['enemy_hand_war'] = [(card.rank, card.suit) for card in enemy_hand]
 
-        my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
-        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
+        my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand_war']]
+        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand_war']]
 
         war_status = False
         if my_hand[0].rank == enemy_hand[0].rank:
@@ -47,8 +83,8 @@ def war(request):
         return render(request, 'base/war.html', context)
 
     elif request.method == "POST":
-        my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
-        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
+        my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand_war']]
+        enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand_war']]
 
         result, my_hand, enemy_hand = play_turn(my_hand, enemy_hand)
         if result == 'victory':
@@ -58,8 +94,8 @@ def war(request):
             reset_war(request)
             return JsonResponse({'status': 'redirect', 'url': '/defeat'})
 
-        request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
-        request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
+        request.session['my_hand_war'] = [(card.rank, card.suit) for card in my_hand]
+        request.session['enemy_hand_war'] = [(card.rank, card.suit) for card in enemy_hand]
 
         war_status = False
         if my_hand[0].rank == enemy_hand[0].rank:
@@ -73,10 +109,10 @@ def war(request):
         return JsonResponse(context)
 
 def reset_war(request):
-    if 'my_hand' in request.session:
-        del request.session['my_hand']
-    if 'enemy_hand' in request.session:
-        del request.session['enemy_hand']
+    if 'my_hand_war' in request.session:
+        del request.session['my_hand_war']
+    if 'enemy_hand_war' in request.session:
+        del request.session['enemy_hand_war']
     return redirect('war')
 
 def poker(request):
