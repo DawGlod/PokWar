@@ -1,7 +1,6 @@
 function call() {
-    const button = document.getElementById("call-button");
     fetch('/poker', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -33,15 +32,17 @@ function call() {
             document.getElementById('enemy-result').innerText = `${data.enemy_result}`;
             document.getElementById('enemy_card1_image').src = `/static/${data.enemy_card1_image}`;
             document.getElementById('enemy_card2_image').src = `/static/${data.enemy_card2_image}`;
+
+            buttonsDisable()
+            restartGame()
         }     
     })
     .catch(error => console.error('Error:', error));
 }
 
 function fold() {
-    const button = document.getElementById("fold-button");
     fetch('/poker', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -64,7 +65,57 @@ function fold() {
             document.getElementById('enemy-result').innerText = `WIN`;
             document.getElementById('enemy_card1_image').src = `/static/${data.enemy_card1_image}`;
             document.getElementById('enemy_card2_image').src = `/static/${data.enemy_card2_image}`;
+
+            buttonsDisable()
+            restartGame()
         }     
     })
     .catch(error => console.error('Error:', error));
+}
+
+function buttonsDisable() {
+    const foldButton = document.getElementById("fold-button");
+    const callButton = document.getElementById("call-button");
+    const raiseButton = document.getElementById("raise-button");
+    
+    foldButton.disabled=true;
+    callButton.disabled=true;
+    raiseButton.disabled=true;
+
+    setTimeout(function() {
+        foldButton.disabled=false;
+        callButton.disabled=false;
+        raiseButton.disabled=false;
+    }, 2000)
+}
+
+function restartGame() {
+    setTimeout(function() {
+        fetch('/restart-poker/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('card1').src = `/static/images/cards/green_back.png`;
+            document.getElementById('card2').src = `/static/images/cards/green_back.png`;
+            document.getElementById('card3').src = `/static/images/cards/green_back.png`;
+            document.getElementById('card4').src = `/static/images/cards/green_back.png`;
+            document.getElementById('card5').src = `/static/images/cards/green_back.png`;
+            document.getElementById('my_card1_image').src = `/static/${data.my_card1_image}`;
+            document.getElementById('my_card2_image').src = `/static/${data.my_card2_image}`;
+            document.getElementById('enemy_card1_image').src = `/static/images/cards/green_back.png`;
+            document.getElementById('enemy_card2_image').src = `/static/images/cards/green_back.png`;
+            document.getElementById('my-balance').innerText = data.my_balance;
+            document.getElementById('enemy-balance').innerText = data.enemy_balance;
+
+            document.getElementById('my-comb').innerHTML = '&nbsp;';
+            document.getElementById('enemy-comb').innerHTML = '&nbsp;';
+            document.getElementById('my-result').innerHTML = '&nbsp;';
+            document.getElementById('enemy-result').innerHTML = '&nbsp;';
+        });
+    }, 8000);
 }

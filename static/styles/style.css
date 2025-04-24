@@ -229,6 +229,16 @@ a{
     background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
     color: rgba(1, 173, 173, 0.85);
 }
+
+.player-balance{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bolder;
+    margin: 10px;
+}
+
 /* poker-cards */
 .poker-card{
     max-width: 100px;
@@ -263,13 +273,20 @@ a{
     align-items: center;
     padding: 10px;
 }
+.poker-chip{
+    max-width: 33px;
+    height: auto;
+    margin-left: 7px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
 /* poker-buttons */
 .decision-buttons-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    padding: 40px;
+    padding: 3px;
 }
 
 .decision-buttons-container button {

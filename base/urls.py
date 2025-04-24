@@ -15,5 +15,6 @@ urlpatterns = [
     path('reset_war/', views.reset_war, name='reset_war'),
     
     path('poker', views.poker, name='poker'),
+    path('restart-poker/', views.restart_poker_game, name='restart_poker_game'),
 
 ]

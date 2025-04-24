@@ -1,7 +1,7 @@
 function playNextCard() {
     const button = document.getElementById("play-button");
     fetch('/war', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
