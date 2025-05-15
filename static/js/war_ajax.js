@@ -1,6 +1,6 @@
 function playNextCard() {
     const button = document.getElementById("play-button");
-    fetch('/war', {
+    fetch('/war/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 function call() {
-    fetch('/poker', {
+    fetch('/poker/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function call() {
 }
 
 function fold() {
-    fetch('/poker', {
+    fetch('/poker/', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -65,6 +65,74 @@ function fold() {
             document.getElementById('enemy-result').innerText = `WIN`;
             document.getElementById('enemy_card1_image').src = `/static/${data.enemy_card1_image}`;
             document.getElementById('enemy_card2_image').src = `/static/${data.enemy_card2_image}`;
+
+            buttonsDisable()
+            restartGame()
+        }     
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function raise() {
+    let myBalance = parseInt(document.getElementById('my-balance').textContent)
+    let enemyBalance = parseInt(document.getElementById('enemy-balance').textContent)
+    const raiseValue = parseInt(document.getElementById('raise-value').textContent)
+
+    myBalance -= raiseValue
+    enemyBalance -= raiseValue
+
+    const maxRaise = Math.min(myBalance, enemyBalance)
+    
+    fetch('/poker/', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        body: JSON.stringify({
+            'my_balance': myBalance,
+            'enemy_balance': enemyBalance,
+            'max_raise': maxRaise,
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('my-balance').textContent = myBalance
+        document.getElementById('enemy-balance').textContent = enemyBalance
+        document.getElementById('raise-slider').max = maxRaise
+        if (Math.min(myBalance, enemyBalance) <= 0) {
+            data.counter = 4
+        }
+
+        if (data.status === 'redirect') {
+            window.location.href = data.url;
+        } 
+        else if (data.counter == 1){
+            document.getElementById('card1').src = `/static/${data.card1_image}`;
+            document.getElementById('card2').src = `/static/${data.card2_image}`;
+            document.getElementById('card3').src = `/static/${data.card3_image}`;
+        }
+
+        else if (data.counter == 2){
+            document.getElementById('card4').src = `/static/${data.card4_image}`;
+        }  
+        
+        else if (data.counter == 3){
+            document.getElementById('card5').src = `/static/${data.card5_image}`;
+        } 
+
+        else if (data.counter == 4){
+            document.getElementById('my-comb').innerText = `${data.my_comb}`;
+            document.getElementById('enemy-comb').innerText = `${data.enemy_comb}`;
+            document.getElementById('my-result').innerText = `${data.my_result}`;
+            document.getElementById('enemy-result').innerText = `${data.enemy_result}`;
+            document.getElementById('enemy_card1_image').src = `/static/${data.enemy_card1_image}`;
+            document.getElementById('enemy_card2_image').src = `/static/${data.enemy_card2_image}`;
+            document.getElementById('card1').src = `/static/${data.card1_image}`;
+            document.getElementById('card2').src = `/static/${data.card2_image}`;
+            document.getElementById('card3').src = `/static/${data.card3_image}`;
+            document.getElementById('card4').src = `/static/${data.card4_image}`;            
+            document.getElementById('card5').src = `/static/${data.card5_image}`;
 
             buttonsDisable()
             restartGame()

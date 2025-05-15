@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .logic.war_logic import initialize_war_game, play_turn, Card
 from .logic.poker_logic import initialize_poker_game, result_checker
 from .forms import MyUserCreationForm
+import json
 
 
 def home(request):
@@ -123,18 +124,11 @@ def poker(request):
         my_card1, my_card2 = my_hand[0], my_hand[1]
         enemy_card1, enemy_card2 = enemy_hand[0], enemy_hand[1]
         counter = 0
-        if 'my_balance' not in request.session or 'enemy_balance' not in request.session:
-            my_balance = 5000
-            enemy_balance = 5000
-            max_raise = min(my_balance, enemy_balance)
-            request.session['my_balance'] = my_balance
-            request.session['enemy_balance'] = enemy_balance
-            request.session['max_raise'] = max_raise
-        else:
-            my_balance = request.session.get('my_balance')
-            enemy_balance = request.session.get('enemy_balance')
-            max_raise = request.session.get('max_raise')
-
+        my_balance = 5000
+        enemy_balance = 5000
+        max_raise = min(my_balance, enemy_balance)
+        
+        
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
         request.session['flop'] = [(card.rank, card.suit) for card in flop]
@@ -145,6 +139,9 @@ def poker(request):
         request.session['my_result'] = my_result
         request.session['enemy_result'] = enemy_result
         request.session['counter'] = counter
+        request.session['my_balance'] = my_balance
+        request.session['enemy_balance'] = enemy_balance
+        request.session['max_raise'] = max_raise
         request.session['all_my_cards'] = [(card.rank, card.suit) for card in all_my_cards]
         request.session['all_enemy_cards'] = [(card.rank, card.suit) for card in all_enemy_cards]
 
@@ -163,71 +160,81 @@ def poker(request):
         return render(request, 'base/poker.html', context)    
  
     elif request.method == "PUT":
+        if request.body:
+            data = json.loads(request.body)
+            if 'my_balance' in data:
+                request.session['my_balance'] = data['my_balance']
+            if 'enemy_balance' in data:
+                request.session['enemy_balance'] = data['enemy_balance']
+            if 'max_raise' in data:
+                request.session['max_raise'] = data['max_raise']
+      
         my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
         enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
         card1, card2, card3 = [Card(rank, suit) for rank, suit in request.session['flop']]
         card4 = [Card(rank, suit) for rank, suit in request.session['turn']][0]
         card5 = [Card(rank, suit) for rank, suit in request.session['river']][0]
-        my_card1, my_card2 = [Card(rank, suit) for rank, suit in request.session['my_hand']]
         enemy_card1, enemy_card2 = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
+        all_my_cards = [Card(rank, suit) for rank, suit in request.session['all_my_cards']]
+        all_enemy_cards = [Card(rank, suit) for rank, suit in request.session['all_enemy_cards']]
        
         counter = request.session.get('counter')
         my_balance = request.session.get('my_balance')
         enemy_balance = request.session.get('enemy_balance')
+        max_raise = request.session.get('max_raise')
         my_comb = request.session.get('my_comb')
         enemy_comb = request.session.get('enemy_comb')
         my_result = request.session.get('my_result')
         enemy_result = request.session.get('enemy_result')
-        all_my_cards = [Card(rank, suit) for rank, suit in request.session['all_my_cards']]
-        all_enemy_cards = [Card(rank, suit) for rank, suit in request.session['all_enemy_cards']]
         
         counter += 1
         request.session['counter'] = counter
+        #EDIT BALANCE AND MAX RAISE
 
-        context = {'card1_image': f'images/cards/{card1.rank}{card1.suit}.png', 'counter': counter,
-                'my_balance': my_balance, 'enemy_balance': enemy_balance,
+        context = {'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise,
+                'card1_image': f'images/cards/{card1.rank}{card1.suit}.png', 'counter': counter,
                 'card2_image': f'images/cards/{card2.rank}{card2.suit}.png',
                 'card3_image': f'images/cards/{card3.rank}{card3.suit}.png',
                 'card4_image': f'images/cards/{card4.rank}{card4.suit}.png',
                 'card5_image': f'images/cards/{card5.rank}{card5.suit}.png',
-                'my_card1_image': f'images/cards/{my_card1.rank}{my_card1.suit}.png',
-                'my_card2_image': f'images/cards/{my_card2.rank}{my_card2.suit}.png',                
-                'enemy_card1_image': f'images/cards/{enemy_card1.rank}{enemy_card1.suit}.png',
-                'enemy_card2_image': f'images/cards/{enemy_card2.rank}{enemy_card2.suit}.png',
+                'my_card1_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',
+                'my_card2_image': f'images/cards/{my_hand[1].rank}{my_hand[1].suit}.png',                
+                'enemy_card1_image': f'images/cards/{enemy_hand[0].rank}{enemy_hand[0].suit}.png',
+                'enemy_card2_image': f'images/cards/{enemy_hand[1].rank}{enemy_hand[1].suit}.png',
                 'my_comb': my_comb, 'enemy_comb': enemy_comb, 'my_result': my_result, 'enemy_result': enemy_result}
         return JsonResponse(context)
     
-def restart_poker_game(request):
-    if request.method == 'POST':
-        my_hand, enemy_hand, flop, turn, river, all_my_cards, all_enemy_cards = initialize_poker_game()
-        my_comb, enemy_comb, my_result, enemy_result = result_checker(all_my_cards, all_enemy_cards)
-        counter = 0
+def restart_poker_game(request): 
+    my_hand, enemy_hand, flop, turn, river, all_my_cards, all_enemy_cards = initialize_poker_game()
+    my_comb, enemy_comb, my_result, enemy_result = result_checker(all_my_cards, all_enemy_cards)
+    counter = 0
+    my_balance = request.session.get('my_balance')
+    enemy_balance = request.session.get('enemy_balance')
+    max_raise = request.session.get('max_raise')
 
-        request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
-        request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
-        request.session['flop'] = [(card.rank, card.suit) for card in flop]
-        request.session['turn'] = [(turn.rank, turn.suit)]
-        request.session['river'] = [(river.rank, river.suit)]
-        request.session['my_comb'] = my_comb
-        request.session['enemy_comb'] = enemy_comb
-        request.session['my_result'] = my_result
-        request.session['enemy_result'] = enemy_result
-        request.session['counter'] = counter
-        request.session['all_my_cards'] = [(card.rank, card.suit) for card in all_my_cards]
-        request.session['all_enemy_cards'] = [(card.rank, card.suit) for card in all_enemy_cards]
+    request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
+    request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
+    request.session['flop'] = [(card.rank, card.suit) for card in flop]
+    request.session['turn'] = [(turn.rank, turn.suit)]
+    request.session['river'] = [(river.rank, river.suit)]
+    request.session['my_comb'] = my_comb
+    request.session['enemy_comb'] = enemy_comb
+    request.session['my_result'] = my_result
+    request.session['enemy_result'] = enemy_result
+    request.session['counter'] = counter
+    request.session['all_my_cards'] = [(card.rank, card.suit) for card in all_my_cards]
+    request.session['all_enemy_cards'] = [(card.rank, card.suit) for card in all_enemy_cards]
 
-        context = {
-            'card1_image': f'images/cards/{flop[0].rank}{flop[0].suit}.png',
-            'card2_image': f'images/cards/{flop[1].rank}{flop[1].suit}.png',
-            'card3_image': f'images/cards/{flop[2].rank}{flop[2].suit}.png',
-            'card4_image': f'images/cards/{turn.rank}{turn.suit}.png',
-            'card5_image': f'images/cards/{river.rank}{river.suit}.png',
-            'my_card1_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',
-            'my_card2_image': f'images/cards/{my_hand[1].rank}{my_hand[1].suit}.png',            
-            'enemy_card1_image': f'images/cards/{enemy_hand[0].rank}{enemy_hand[0].suit}.png',
-            'enemy_card2_image': f'images/cards/{enemy_hand[1].rank}{enemy_hand[1].suit}.png',
-            'my_balance': request.session['my_balance'],
-            'enemy_balance': request.session['enemy_balance'],
-            'max_rainse': min(request.session['my_balance'], request.session['enemy_balance'])
-        }
-        return JsonResponse(context)
+    context = {
+        'card1_image': f'images/cards/{flop[0].rank}{flop[0].suit}.png',
+        'card2_image': f'images/cards/{flop[1].rank}{flop[1].suit}.png',
+        'card3_image': f'images/cards/{flop[2].rank}{flop[2].suit}.png',
+        'card4_image': f'images/cards/{turn.rank}{turn.suit}.png',
+        'card5_image': f'images/cards/{river.rank}{river.suit}.png',
+        'my_card1_image': f'images/cards/{my_hand[0].rank}{my_hand[0].suit}.png',
+        'my_card2_image': f'images/cards/{my_hand[1].rank}{my_hand[1].suit}.png',            
+        'enemy_card1_image': f'images/cards/{enemy_hand[0].rank}{enemy_hand[0].suit}.png',
+        'enemy_card2_image': f'images/cards/{enemy_hand[1].rank}{enemy_hand[1].suit}.png',
+        'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise
+    }
+    return JsonResponse(context)
