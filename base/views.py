@@ -126,6 +126,7 @@ def poker(request):
         counter = 0
         my_balance = 5000
         enemy_balance = 5000
+        total_pot = 0
         max_raise = min(my_balance, enemy_balance)
         
         
@@ -141,11 +142,12 @@ def poker(request):
         request.session['counter'] = counter
         request.session['my_balance'] = my_balance
         request.session['enemy_balance'] = enemy_balance
+        request.session['total_pot'] = total_pot
         request.session['max_raise'] = max_raise
         request.session['all_my_cards'] = [(card.rank, card.suit) for card in all_my_cards]
         request.session['all_enemy_cards'] = [(card.rank, card.suit) for card in all_enemy_cards]
 
-        context = {'my_hand': my_hand, 'enemy_hand': enemy_hand, 'counter': counter, 
+        context = {'my_hand': my_hand, 'enemy_hand': enemy_hand, 'counter': counter, 'total_pot': total_pot,
                 'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise,
                 'card1_image': f'images/cards/{card1.rank}{card1.suit}.png',
                 'card2_image': f'images/cards/{card2.rank}{card2.suit}.png',
@@ -168,6 +170,13 @@ def poker(request):
                 request.session['enemy_balance'] = data['enemy_balance']
             if 'max_raise' in data:
                 request.session['max_raise'] = data['max_raise']
+            if 'total_pot' in data:
+                request.session['total_pot'] = data['total_pot']
+
+        my_balance = request.session.get('my_balance')
+        enemy_balance = request.session.get('enemy_balance')
+        my_result = request.session.get('my_result')
+        enemy_result = request.session.get('enemy_result')    
       
         my_hand = [Card(rank, suit) for rank, suit in request.session['my_hand']]
         enemy_hand = [Card(rank, suit) for rank, suit in request.session['enemy_hand']]
@@ -179,19 +188,15 @@ def poker(request):
         all_enemy_cards = [Card(rank, suit) for rank, suit in request.session['all_enemy_cards']]
        
         counter = request.session.get('counter')
-        my_balance = request.session.get('my_balance')
-        enemy_balance = request.session.get('enemy_balance')
         max_raise = request.session.get('max_raise')
+        total_pot = request.session.get('total_pot')
         my_comb = request.session.get('my_comb')
         enemy_comb = request.session.get('enemy_comb')
-        my_result = request.session.get('my_result')
-        enemy_result = request.session.get('enemy_result')
         
         counter += 1
         request.session['counter'] = counter
-        #EDIT BALANCE AND MAX RAISE
 
-        context = {'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise,
+        context = {'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise, 'total_pot': total_pot,
                 'card1_image': f'images/cards/{card1.rank}{card1.suit}.png', 'counter': counter,
                 'card2_image': f'images/cards/{card2.rank}{card2.suit}.png',
                 'card3_image': f'images/cards/{card3.rank}{card3.suit}.png',
@@ -208,9 +213,10 @@ def restart_poker_game(request):
     my_hand, enemy_hand, flop, turn, river, all_my_cards, all_enemy_cards = initialize_poker_game()
     my_comb, enemy_comb, my_result, enemy_result = result_checker(all_my_cards, all_enemy_cards)
     counter = 0
+    total_pot = 0
     my_balance = request.session.get('my_balance')
     enemy_balance = request.session.get('enemy_balance')
-    max_raise = request.session.get('max_raise')
+    max_raise = min(my_balance, enemy_balance)
 
     request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
     request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
@@ -222,6 +228,7 @@ def restart_poker_game(request):
     request.session['my_result'] = my_result
     request.session['enemy_result'] = enemy_result
     request.session['counter'] = counter
+    request.session['total_pot'] = total_pot
     request.session['all_my_cards'] = [(card.rank, card.suit) for card in all_my_cards]
     request.session['all_enemy_cards'] = [(card.rank, card.suit) for card in all_enemy_cards]
 
@@ -235,6 +242,6 @@ def restart_poker_game(request):
         'my_card2_image': f'images/cards/{my_hand[1].rank}{my_hand[1].suit}.png',            
         'enemy_card1_image': f'images/cards/{enemy_hand[0].rank}{enemy_hand[0].suit}.png',
         'enemy_card2_image': f'images/cards/{enemy_hand[1].rank}{enemy_hand[1].suit}.png',
-        'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise
+        'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise, 'total_pot': total_pot
     }
     return JsonResponse(context)
