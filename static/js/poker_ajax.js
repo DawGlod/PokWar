@@ -73,6 +73,7 @@ function fold() {
     .catch(error => console.error('Error:', error));
 }
 
+
 function buttonsDisable() {
     const foldButton = document.getElementById("fold-button");
     const callButton = document.getElementById("call-button");
@@ -86,7 +87,7 @@ function buttonsDisable() {
         foldButton.disabled=false;
         callButton.disabled=false;
         raiseButton.disabled=false;
-    }, 2000)
+    }, 8000)
 }
 
 function restartGame() {
@@ -119,3 +120,16 @@ function restartGame() {
         });
     }, 8000);
 }
+
+function initRaiseSlider() {
+    const slider = document.getElementById('raise-slider');
+    const valueDisplay = document.getElementById('raise-value');
+
+    if (slider && valueDisplay) {
+        slider.addEventListener('input', () => {
+            valueDisplay.innerText = slider.value;
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initRaiseSlider);

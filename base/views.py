@@ -126,11 +126,14 @@ def poker(request):
         if 'my_balance' not in request.session or 'enemy_balance' not in request.session:
             my_balance = 5000
             enemy_balance = 5000
+            max_raise = min(my_balance, enemy_balance)
             request.session['my_balance'] = my_balance
             request.session['enemy_balance'] = enemy_balance
+            request.session['max_raise'] = max_raise
         else:
             my_balance = request.session.get('my_balance')
             enemy_balance = request.session.get('enemy_balance')
+            max_raise = request.session.get('max_raise')
 
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
@@ -146,7 +149,7 @@ def poker(request):
         request.session['all_enemy_cards'] = [(card.rank, card.suit) for card in all_enemy_cards]
 
         context = {'my_hand': my_hand, 'enemy_hand': enemy_hand, 'counter': counter, 
-                'my_balance': my_balance, 'enemy_balance': enemy_balance,
+                'my_balance': my_balance, 'enemy_balance': enemy_balance, 'max_raise': max_raise,
                 'card1_image': f'images/cards/{card1.rank}{card1.suit}.png',
                 'card2_image': f'images/cards/{card2.rank}{card2.suit}.png',
                 'card3_image': f'images/cards/{card3.rank}{card3.suit}.png',
@@ -225,5 +228,6 @@ def restart_poker_game(request):
             'enemy_card2_image': f'images/cards/{enemy_hand[1].rank}{enemy_hand[1].suit}.png',
             'my_balance': request.session['my_balance'],
             'enemy_balance': request.session['enemy_balance'],
+            'max_rainse': min(request.session['my_balance'], request.session['enemy_balance'])
         }
         return JsonResponse(context)

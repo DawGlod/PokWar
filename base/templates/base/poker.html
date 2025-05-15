@@ -3,7 +3,6 @@
 <body>
     {% block content %}
     
-    <!-- for later -->
     <div style="text-align: right; margin-right: 1px;">
         <form method="GET" action="{% url 'poker' %}">
             {% csrf_token %}
@@ -59,7 +58,13 @@
     <div class="decision-buttons-container">
         <button class="decision-button" id="fold-button" onclick="fold()">Fold</button>
         <button class="decision-button" id="call-button" onclick="call()">Call</button>
-        <button class="decision-button" id="raise-button">Raise</button>
+        <div class="raise-container">
+            <button class="decision-button" id="raise-button" onclick="raise()">Raise</button>
+            <div class="raise-slider-wrapper">
+                <input type="range" id="raise-slider" min="100" max="{{max_raise}}" step="50" value="100">
+                <div id="raise-value">100</div>
+            </div>
+        </div>
     </div>
 
     <script src="{% static 'js/poker_ajax.js' %}"></script>

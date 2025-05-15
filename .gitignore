@@ -1,0 +1,19 @@
+# Django SQLite database file
+db.sqlite3
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+
+# VSCode settings (jeśli używasz VSCode)
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
