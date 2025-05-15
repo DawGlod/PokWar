@@ -76,7 +76,7 @@ function fold() {
 function raise() {
     let myBalance = parseInt(document.getElementById('my-balance').textContent)
     let enemyBalance = parseInt(document.getElementById('enemy-balance').textContent)
-    const raiseValue = parseInt(document.getElementById('raise-value').textContent)
+    let raiseValue = parseInt(document.getElementById('raise-value').textContent)
 
     myBalance -= raiseValue
     enemyBalance -= raiseValue
@@ -100,6 +100,15 @@ function raise() {
         document.getElementById('my-balance').textContent = myBalance
         document.getElementById('enemy-balance').textContent = enemyBalance
         document.getElementById('raise-slider').max = maxRaise
+        if (maxRaise >= 50) {
+            document.getElementById('raise-slider').value = 50
+            document.getElementById('raise-value').textContent = 50
+        }
+        else {
+            document.getElementById('raise-slider').value = maxRaise
+            document.getElementById('raise-value').textContent = maxRaise
+        }
+
         if (Math.min(myBalance, enemyBalance) <= 0) {
             data.counter = 4
         }
