@@ -5,7 +5,7 @@ PokWar is a web application built with [Django](https://docs.djangoproject.com/e
 ![image](https://github.com/user-attachments/assets/4f93b588-bb57-449b-a401-f4e5326e7bbc)
 
 ## **Poker**
-![image](https://github.com/user-attachments/assets/7e444f40-933c-4735-86fb-328d2ca2d5fb)
+![image](https://github.com/user-attachments/assets/9763a648-7119-4342-87a7-360f7cb40fe9)
 
 ## **Usage**
 ### **Installation**
@@ -24,7 +24,6 @@ PokWar is a web application built with [Django](https://docs.djangoproject.com/e
 8. Press CTRL+C in the terminal.
 
 ## **TODO**
-- Finish Poker Functionality
 - User Profile
 - Multiplayer Mode
 - Game Lobby
