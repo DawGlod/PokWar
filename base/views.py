@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from .logic.war_logic import initialize_war_game, play_turn, Card
 from .logic.poker_logic import initialize_poker_game, result_checker
 from .forms import MyUserCreationForm
@@ -128,8 +126,7 @@ def poker(request):
         enemy_balance = 5000
         total_pot = 0
         max_raise = min(my_balance, enemy_balance)
-        
-        
+               
         request.session['my_hand'] = [(card.rank, card.suit) for card in my_hand]
         request.session['enemy_hand'] = [(card.rank, card.suit) for card in enemy_hand]
         request.session['flop'] = [(card.rank, card.suit) for card in flop]

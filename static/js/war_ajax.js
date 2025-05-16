@@ -25,5 +25,5 @@ function playNextCard() {
     
     setTimeout(function() {
         button.disabled=false;
-    }, 300)
+    }, 200)
 }

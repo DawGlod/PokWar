@@ -332,8 +332,8 @@ a{
 }
 
 .raise-slider-wrapper input[type="range"] {
-    writing-mode: bt-lr; /* vertical */
-    -webkit-appearance: slider-vertical;
+    writing-mode: vertical-lr;
+    direction: rtl;
     width: 8px;
     height: 100px;
     margin: 0 auto;

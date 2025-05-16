@@ -35,17 +35,18 @@ function call() {
             document.getElementById('enemy_card2_image').src = `/static/${data.enemy_card2_image}`;
 
             buttonsDisable()           
-            if (data.my_result == 'WIN') {
+            
+            if (data.my_result == 'WIN') 
                 myBalance += totalPot
-            }
-            else if (data.my_result == 'LOSE') {
+            else if (data.my_result == 'LOSE') 
                 enemyBalance += totalPot
-            }
             else if (data.my_result == 'DRAW') {
                 myBalance += totalPot / 2
                 enemyBalance += totalPot / 2
             }
+
             const maxRaise = Math.min(myBalance, enemyBalance)
+            
             fetch('/poker/', {
                 method: 'PUT',
                 headers: {
@@ -65,6 +66,10 @@ function call() {
 }
 
 function fold() {
+    let myBalance = parseInt(document.getElementById('my-balance').textContent)
+    let enemyBalance = parseInt(document.getElementById('enemy-balance').textContent)
+    let totalPot = parseInt(document.getElementById('total-pot').textContent)
+
     fetch('/poker/', {
         method: 'PUT',
         headers: {
@@ -87,10 +92,23 @@ function fold() {
         document.getElementById('enemy_card2_image').src = `/static/${data.enemy_card2_image}`;
 
         buttonsDisable()
-        if (data.status === 'redirect') {
-            window.location.href = data.url;
-        }
-        restartGame()           
+
+        enemyBalance += totalPot
+        const maxRaise = Math.min(myBalance, enemyBalance)
+       
+        fetch('/poker/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: JSON.stringify({
+                'my_balance': myBalance,
+                'enemy_balance': enemyBalance,
+                'max_raise': maxRaise
+            })
+        })
+        .then(() => restartGame())         
     })
     .catch(error => console.error('Error:', error));
 }
@@ -164,6 +182,7 @@ function raise() {
             document.getElementById('card5').src = `/static/${data.card5_image}`;
 
             buttonsDisable()
+            
             if (myBalance === 0 && data.my_result === 'LOSE') {
                 setTimeout(() => {
                     window.location.href = '/defeat';
@@ -175,16 +194,15 @@ function raise() {
                 }, 8000)
             }
             else {
-                if (data.my_result == 'WIN') {
+                if (data.my_result == 'WIN') 
                     myBalance += totalPot
-                }
-                else if (data.my_result == 'LOSE') {
+                else if (data.my_result == 'LOSE') 
                     enemyBalance += totalPot
-                }
                 else if (data.my_result == 'DRAW') {
                     myBalance += totalPot / 2
                     enemyBalance += totalPot / 2
                 }
+                
                 const maxRaise = Math.min(myBalance, enemyBalance)
 
                 fetch('/poker/', {
@@ -225,7 +243,7 @@ function buttonsDisable() {
 function restartGame() {
     setTimeout(function() {
         fetch('/restart-poker/', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -248,7 +266,7 @@ function restartGame() {
 
             document.getElementById('my-comb').innerHTML = '&nbsp;';
             document.getElementById('enemy-comb').innerHTML = '&nbsp;';
-            document.getElementById('total-pot').innerHTML = 0;
+            document.getElementById('total-pot').innerText = data.total_pot;
             document.getElementById('enemy-result').innerHTML = '&nbsp;';
         });
     }, 8000);
