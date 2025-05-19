@@ -16,7 +16,14 @@ function playNextCard() {
             document.getElementById('enemy-hand-count').innerText = `Enemy hand: ${data.enemy_hand} cards`;
             document.getElementById('my-first').src = `/static/${data.my_card_image}`;
             document.getElementById('enemy-first').src = `/static/${data.enemy_card_image}`;
-            document.getElementById('war-status').innerText = data.war_status ? 'WAR' : '';
+
+            const gameName = document.querySelector('.gamename');
+
+            if (data.war_status == true) {
+                gameName.classList.add('war-active');
+            } else {
+                gameName.classList.remove('war-active');
+            }
         }
     })
     .catch(error => console.error('Error:', error));

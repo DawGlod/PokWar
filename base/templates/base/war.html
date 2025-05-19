@@ -2,32 +2,32 @@
 {% load static %}
 <body>
     {% block content %}
-    <div style="text-align: right; margin-right: 1px;">
-        <form method="post" action="{% url 'reset_war' %}">
-            {% csrf_token %}
-            <button type="submit" class="buttons" id="reset-button">Reset Game</button>
-        </form>
-    </div>
-    
-    <div class="gamename">War Game</div>
-    
-    <div class="war-playboard">
-        <div>
-            <div class="war-hand" id="my-hand-count">My Hand: {{ my_hand }} cards</div>
-            <img src="{% static my_card_image %}" class="war-card" id="my-first"> 
+    <div id="war-container">
+        <div style="text-align: right; margin-right: 1px;">
+            <form method="post" action="{% url 'reset_war' %}">
+                {% csrf_token %}
+                <button type="submit" class="buttons" id="reset-button">Reset Game</button>
+            </form>
         </div>
-        <div>
-            <h1 id="war-status">{% if war_status %}WAR{% endif %}</h1>
+        
+        <div class="gamename">War Game</div>
+        
+        <div class="war-playboard">
+            <div>
+                <div class="war-hand" id="my-hand-count">My Hand: {{ my_hand }} cards</div>
+                <img src="{% static my_card_image %}" class="war-card" id="my-first"> 
+            </div>
+
+            <div>
+                <div class="war-hand" id="enemy-hand-count">Enemy Hand: {{ enemy_hand }} cards </div>
+                <img src="{% static enemy_card_image %}" class="war-card" id="enemy-first">
+            </div>
         </div>
-        <div>
-            <div class="war-hand" id="enemy-hand-count">Enemy Hand: {{ enemy_hand }} cards </div>
-            <img src="{% static enemy_card_image %}" class="war-card" id="enemy-first">
-        </div>
-    </div>
 
 
-    <div class="play-button-box">
-            <button class="buttons" id="play-button" onclick="playNextCard()">Play Next Card</button>
+        <div class="play-button-box">
+                <button class="buttons" id="play-button" onclick="playNextCard()">Play Next Card</button>
+        </div>
     </div>
 
     <script src="{% static 'js/play_button.js' %}"></script>

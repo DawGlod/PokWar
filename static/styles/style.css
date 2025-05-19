@@ -140,6 +140,10 @@ a{
 }
 
 /* war-cards */
+#war-container{
+    height: 88vh;
+}
+
 .gamename{
     display: flex;
     text-align: center;
@@ -149,22 +153,32 @@ a{
     font-weight: bold;
     color: rgb(53, 53, 53);
     text-shadow: 1px 1px 5px lightgreen, -1px -1px 5px lightgreen;
+    margin-top: 6px;
 }
+
+.war-active {
+    animation: warPulse 1s infinite;
+}
+
 .war-hand{
     font-size: 20px;
     font-weight: bold;
     padding-bottom: 10px;
 }
 .war-card{
-    max-width: 60%;
-    height: auto;
+    max-height: 65vh;
+    aspect-ratio: 691 / 1056;
+    object-fit: contain;
+    width: 40vw;
 }
+
 .war-playboard{  
     display: flex;
     justify-content: center;
     text-align: center;
     gap: 4%;
 }
+
 #war-status{
     font-size: 48px;
     font-weight: bold;
@@ -175,29 +189,62 @@ a{
     left: 47%;
     transform: translate(-50%, -50%);
 }
+
 /* war-buttons */
-#play-button{
-    font-size: 25px;
+#play-button {
+    font-size: 20px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #9ACD32, #4CAF50);
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-top: 12px;
 }
-#reset-button{
-    font-size: 13px;
+
+#play-button:hover {
+    background: linear-gradient(135deg, #7CB518, #388E3C);
+    transform: translateY(-2px);
 }
-.play-button-box{
+
+#play-button:active {
+    background: linear-gradient(135deg, #5A9216, #2E7D32);
+    transform: scale(0.98);
+}
+
+.play-button-box {
     display: flex;
     text-align: center;
     justify-content: center;
 }
-.buttons{
-    background-color:rgb(188, 216, 219);
+
+#reset-button {
+    font-size: 13px;
     font-weight: bold;
-    border: 2px solid;
-    border-radius: 5px;
+    padding: 6px 14px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute;
+    top: 73px;
+    right: 4px;
 }
-.buttons:hover{
-    background-color: rgb(197, 197, 197);
+
+#reset-button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
 }
-.buttons:active{
-    background-color: rgb(178, 178, 250);
+
+#reset-button:active {
+    background-color: #d0d0d0;
+    transform: scale(0.97);
 }
 
 /* results */
@@ -363,27 +410,12 @@ a{
 }
 
 /* animations */
-@keyframes pulsate {
-    0% {
-        transform: scale(1);
+@keyframes warPulse {
+    0%, 100% {
+        text-shadow: 0 0 2px #ff0000, 0 0 4px #ff0000;
     }
     50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes glow {
-    0% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000;
-    }
-    50% {
-        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
-    }
-    100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000;
+        text-shadow: 0 0 4px #ff1a1a, 0 0 8px #ff1a1a;
     }
 }
 
@@ -404,5 +436,18 @@ a{
     }
     #login-register-navbar{
         font-size: 16px;
+    }
+    #reset-button{
+        top: 57px;
+        font-size: 11px;
+    }
+    #play-button{
+        font-size: 15px;
+    }
+    .war-hand{
+        font-size: 16px;
+    }
+    .gamename{
+        font-size: 30px;
     }
 }
