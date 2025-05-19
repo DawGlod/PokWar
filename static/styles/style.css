@@ -1,12 +1,48 @@
 /* overall */
-body{
+html, body{
     font-family: sans-serif;
     margin: 0px;
     background-color: rgb(90, 89, 89);
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 a{
     text-decoration: none;
 }
+
+/* home */
+.home-display{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 8%;
+}
+
+.game-display{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 465px;
+    height: 465px;
+    background: linear-gradient(to right, #fc562df1, #f78e3df1);
+    border: 7px solid black;
+    border-radius: 30px;
+
+    color: rgb(1, 173, 173);
+    text-shadow: 0px 0px 10px black;
+    font-size: 65px;
+    font-weight: bolder;
+}
+.game-display:hover{
+    background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
+    color: rgba(1, 173, 173, 0.85);
+}
+.game-display:active{
+    background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
+    color: rgba(1, 173, 173, 0.85);
+}
+
 /* navbar */
 #navbar{
     display: flex; 
@@ -31,7 +67,7 @@ a{
     position: absolute;
     font-size: 30px;
     font-weight: bolder;
-    left: 40px;
+    left: 20px;
     cursor: pointer;
 }
 
@@ -47,11 +83,11 @@ a{
     justify-content: center;
     position: absolute;
     font-size: 20px;
-    right: 10px;
-    gap: 10px;
+    right: 8px;
+    gap: 8px;
 }
 .login-register-navbar{
-    padding-right: 10px;
+    padding-right: 8px;
 }
 
 #login-register {
@@ -163,19 +199,27 @@ a{
 .buttons:active{
     background-color: rgb(178, 178, 250);
 }
-/* victory */
+
+/* results */
+.result-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+}
+
 .result-box{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 650px;
-    width: 650px;
-    margin: auto;
-    margin-top: 100px;
-    border: 5px solid black;
-    border-radius: 999px;
+    
+    height: min(77vh, 77vw);
+    aspect-ratio: 1 / 1;
 
-    font-size: 100px;
+    border: 5px solid black;
+    border-radius: 50%;
+
+    font-size: 6vw;
     font-weight: bolder;
 
     animation: resultRotation;
@@ -196,47 +240,6 @@ a{
 
 @keyframes resultRotation{
     100%{transform: rotateY(1080deg)}
-}
-
-/* home */
-.home-display{
-    display: flex;
-    justify-content: space-around;
-    padding-top: 8%;
-}
-
-.game-display{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 500px;
-    height: 500px;
-    background: linear-gradient(to right, #fc562df1, #f78e3df1);
-    border: 7px solid black;
-    border-radius: 30px;
-
-    color: rgb(1, 173, 173);
-    text-shadow: 0px 0px 10px black;
-    font-size: 65px;
-    font-weight: bolder;
-}
-.game-display:hover{
-    background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
-    color: rgba(1, 173, 173, 0.85);
-}
-.game-display:active{
-    background: linear-gradient(to right, #fc562dc4, #f78e3dc4);
-    color: rgba(1, 173, 173, 0.85);
-}
-
-.player-balance{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-    font-weight: bolder;
-    margin: 10px;
 }
 
 /* poker-cards */
@@ -350,6 +353,14 @@ a{
     transform: scale(1.1);
 }
 
+.player-balance{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bolder;
+    margin: 10px;
+}
 
 /* animations */
 @keyframes pulsate {
@@ -373,5 +384,25 @@ a{
     }
     100% {
         text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 30px #ff0000;
+    }
+}
+
+/* media queries */
+@media (max-width: 1000px) {
+    .home-display {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        padding-bottom: 25px;
+        padding-top: 25px;
+    }
+    #title{
+        font-size: 37px;
+    }
+    #username-navbar{
+        font-size: 24px;
+    }
+    #login-register-navbar{
+        font-size: 16px;
     }
 }
