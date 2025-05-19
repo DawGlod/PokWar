@@ -2,10 +2,10 @@
 PokWar is a web application built with [Django](https://docs.djangoproject.com/en/stable/) that allows users to play two card games: War and Poker.
 
 ## **War**
-![image](https://github.com/user-attachments/assets/4f93b588-bb57-449b-a401-f4e5326e7bbc)
+![war](https://github.com/user-attachments/assets/3cd9e64e-eb91-4ba5-99a7-49e515bf8789)
 
 ## **Poker**
-![image](https://github.com/user-attachments/assets/9763a648-7119-4342-87a7-360f7cb40fe9)
+![poker](https://github.com/user-attachments/assets/9763a648-7119-4342-87a7-360f7cb40fe9)
 
 ## **Usage**
 ### **Installation**
