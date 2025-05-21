@@ -3,66 +3,68 @@
 <body>
     {% block content %}
     
-    <div style="text-align: right; margin-right: 1px;">
-        <form method="GET" action="{% url 'poker' %}">
-            {% csrf_token %}
-            <button type="submit" class="buttons" id="reset-button">Reset Game</button>
-        </form>
-    </div>
-
-    <!-- <div class="gamename">
-        Poker Game
-    </div> -->
-
-    <div class="player-balance">
-        <span id="enemy-balance">{{enemy_balance}}</span> 
-        <img src="{% static 'images/poker-chip.png' %}" class="poker-chip"> 
-    </div>
-    
-    <div class="poker-playboard">
-        <div class="hand">
-            <img id = 'enemy_card1_image' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
-            <img id = 'enemy_card2_image' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+    <div id="poker-container">
+        <div style="text-align: right; margin-right: 1px;">
+            <form method="GET" action="{% url 'poker' %}">
+                {% csrf_token %}
+                <button type="submit" class="buttons" id="reset-button">Reset Game</button>
+            </form>
         </div>
 
-        <div class="poker-comb" id='enemy-comb'>&nbsp;</div>
-        <div class="poker-result" id='enemy-result'>&nbsp;</div>
-
-        <div class="table-cards">
-            <div class="flop">
-                <img id='card1' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
-                <img id='card2' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
-                <img id='card3' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
-            </div>
-            <div>
-                <img id='card4' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
-            </div>
-            <div>
-                <img id='card5' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
-            </div>
+        <div class="player-balance">
+            <span id="enemy-balance">{{enemy_balance}}</span> 
+            <img src="{% static 'images/poker-chip.png' %}" class="poker-chip"> 
         </div>
         
-        <div class="poker-result" id='total-pot'>{{total_pot}}</div>
-        <div class="poker-comb" id='my-comb'>&nbsp;</div>
-        
-        <div class="hand">
-            <img id = 'my_card1_image' src="{% static my_card1_image %}" class="poker-card"> 
-            <img id = 'my_card2_image' src="{% static my_card2_image %}" class="poker-card"> 
-        </div>
-    </div>
-    <div class="player-balance">
-        <span id="my-balance">{{my_balance}}</span> 
-        <img src="{% static 'images/poker-chip.png' %}" class="poker-chip"> 
-    </div>
+        <div class="poker-playboard">
+            <div class="hand">
+                <img id = 'enemy_card1_image' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+                <img id = 'enemy_card2_image' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+            </div>
 
-    <div class="decision-buttons-container">
-        <button class="decision-button" id="fold-button" onclick="fold()">Fold</button>
-        <button class="decision-button" id="call-button" onclick="call()">Call</button>
-        <div class="raise-container">
-            <button class="decision-button" id="raise-button" onclick="raise()">Raise</button>
-            <div class="raise-slider-wrapper">
-                <input type="range" id="raise-slider" min="50" max="{{max_raise}}" step="50" value="50">
-                <div id="raise-value">50</div>
+            <div class="poker-comb" id='enemy-comb'>&nbsp;</div>
+            <div class="poker-result" id='enemy-result'>&nbsp;</div>
+
+            <div class="table-cards">
+                <div>
+                    <img id='card1' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+                </div>
+                <div>
+                    <img id='card2' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+                </div>
+                <div>
+                    <img id='card3' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+                </div>
+                <div>
+                    <img id='card4' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+                </div>
+                <div>
+                    <img id='card5' src="{% static 'images/cards/green_back.png' %}" class="poker-card"> 
+                </div>
+            </div>
+            
+            <div class="poker-result" id='total-pot'>{{total_pot}}</div>
+            <div class="poker-comb" id='my-comb'>&nbsp;</div>
+            
+            <div class="hand">
+                <img id = 'my_card1_image' src="{% static my_card1_image %}" class="poker-card"> 
+                <img id = 'my_card2_image' src="{% static my_card2_image %}" class="poker-card"> 
+            </div>
+        </div>
+        <div class="player-balance">
+            <span id="my-balance">{{my_balance}}</span> 
+            <img src="{% static 'images/poker-chip.png' %}" class="poker-chip"> 
+        </div>
+
+        <div class="decision-buttons-container">
+            <button class="decision-button" id="fold-button" onclick="fold()">Fold</button>
+            <button class="decision-button" id="call-button" onclick="call()">Call</button>
+            <div class="raise-container">
+                <button class="decision-button" id="raise-button" onclick="raise()">Raise</button>
+                <div class="raise-slider-wrapper">
+                    <input type="range" id="raise-slider" min="50" max="{{max_raise}}" step="50" value="50">
+                    <div id="raise-value">50</div>
+                </div>
             </div>
         </div>
     </div>
