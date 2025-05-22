@@ -1,11 +1,10 @@
 {% include 'main.html' %}
 {% load static %}
 <body>
-    {% block content %}
-    
+    {% block content %}    
     <div id="poker-container">
         <div style="text-align: right; margin-right: 1px;">
-            <form method="GET" action="{% url 'poker' %}">
+            <form method="GET" action="{% url 'reset_poker' %}">
                 {% csrf_token %}
                 <button type="submit" class="buttons" id="reset-button">Reset Game</button>
             </form>

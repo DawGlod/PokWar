@@ -17,6 +17,7 @@ urlpatterns = [
     
     path('poker/', views.poker, name='poker'),
     path('restart-poker/', views.restart_poker_game, name='restart_poker_game'),
+    path('reset-poker/', views.reset_poker, name='reset_poker'),
 
     path('api/users/', views.users_list, name='users_list'),
     path('api/users/<int:id>', views.user_detail, name='user_detail')

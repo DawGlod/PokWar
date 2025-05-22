@@ -248,6 +248,13 @@ def restart_poker_game(request):
     }
     return JsonResponse(context)
 
+def reset_poker(request):
+    if 'my_hand' in request.session:
+        del request.session['my_hand']
+    if 'enemy_hand' in request.session:
+        del request.session['enemy_hand']
+    return redirect('poker')
+
 
 @api_view(['GET', 'POST'])
 def users_list(request, format=None):
