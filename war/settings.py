@@ -14,7 +14,10 @@ SECRET_KEY = 'django-insecure-hlgp&)_vrft05t)7jq=l0@+(osg2mnus#9!0-8h0dr(739@lct
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'pokwar.dawglod.my',
+    '127.0.0.1'
+]
 
 
 # Application definition
